@@ -1,0 +1,39 @@
+这个文件夹放"图片作品"和自我介绍里的个人照片。
+
+【最省事的做法：按序号命名，编号对应页面上每张作品左上角的数字】
+
+  assets/img/01.jpg   → 图片作品 第 01 张
+  assets/img/02.jpg   → 图片作品 第 02 张
+  assets/img/03.jpg   → 图片作品 第 03 张
+  assets/img/04.jpg   → 图片作品 第 04 张
+  assets/img/05.jpg   → 图片作品 第 05 张
+  assets/img/06.jpg   → 图片作品 第 06 张
+  assets/img/07.jpg   → 图片作品 第 07 张
+  assets/img/08.jpg   → 图片作品 第 08 张
+  assets/img/09.jpg   → 图片作品 第 09 张
+  assets/img/me.jpg   → 自我介绍里的个人照片
+
+【其他板块的图片也放在这个文件夹，按下面的名字取名即可自动显示】
+
+  assets/img/account-01.jpg … account-05.jpg  → 账号运营：每个账号展开后左侧的截图
+                                                （编号对应页面上第 01…05 个账号）
+  assets/img/data-hot.jpg                     → 数据分析：漏斗右侧的爆款笔记截图
+  assets/img/data-daily.jpg                   → 数据分析：日常数据监控看板
+  assets/img/data-weekly.jpg                  → 数据分析：周度分析看板
+  assets/img/data-competitor.jpg              → 数据分析：竞品分析
+
+（这些位置现在显示的是占位图，占位图左下角会写出应该用的文件名。）
+
+放进来、刷新页面就会自动显示；找不到文件时才显示占位图。
+自动识别的格式：.jpg 或 .png（两种都可以，先找 .jpg 再找 .png）
+其他格式（.jpeg / .webp / .avif 等）：在 content.js 里填 src 也能正常显示。
+
+【想用自己的文件名】
+把文件放进这个文件夹，然后在 assets/js/content.js 里给对应条目填 src，例如：
+  src: "assets/img/我的封面.png"
+填了 src 就以它为准。
+
+【建议】
+· 图片宽度 1200-2000px 就够清晰了，单张控制在 500KB 以内，页面打开更快。
+· 文件名用英文或数字，不要有空格（例如 cover-01.jpg）。
+· 竖版图放在标了 tall 的条目上、横版图放在标了 wide 的条目上，排版最好看。

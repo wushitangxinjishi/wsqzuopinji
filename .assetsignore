@@ -1,0 +1,6 @@
+# 这些内容不进入 Cloudflare 静态资源上传
+.git
+.gitignore
+.assetsignore
+README.md
+_原片备份

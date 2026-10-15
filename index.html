@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>王思茜 · 运营作品集</title>
+  <meta name="description" content="王思茜 · 运营作品集：账号运营、数据分析、图片作品与剪辑作品。" />
+  <meta name="theme-color" content="#08080A" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="王思茜 · 运营作品集" />
+  <meta property="og:description" content="王思茜 · 运营作品集：账号运营、数据分析、图片作品与剪辑作品。" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- 字体异步加载：即使字体服务访问不了（例如国内网络），页面也会立刻用系统字体渲染，不会白屏 -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;700;900&display=swap"
+    media="print" onload="this.media='all'" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+
+<body class="is-loading">
+
+  <!-- ═══════════════════════════════════════════ 预加载 ═══════════════════════ -->
+  <div class="preloader" id="preloader">
+    <div class="preloader__inner">
+      <div class="preloader__name" id="preloaderName"></div>
+      <div class="preloader__meta">
+        <span>内容运营作品集</span>
+        <span class="mono" id="preloaderPct">00</span>
+      </div>
+    </div>
+    <div class="preloader__bar"><i id="preloaderBar"></i></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ 全局装饰 ═════════════════════ -->
+  <div class="grain" aria-hidden="true"></div>
+  <div class="edge-glow" aria-hidden="true"></div>
+
+  <div class="cursor" id="cursor" aria-hidden="true">
+    <span class="cursor__ring"><span class="cursor__label" id="cursorLabel"></span></span>
+    <span class="cursor__dot"></span>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ 顶栏 ═════════════════════════ -->
+  <header class="topbar" id="topbar">
+    <a class="topbar__brand" href="#home" data-scroll-to="home">
+      <span class="topbar__mark"></span>
+      <span class="topbar__name" id="brandName">林见</span>
+      <span class="topbar__role mono" id="brandRole">内容运营</span>
+    </a>
+    <nav class="topbar__nav" id="topbarNav" aria-label="板块导航"></nav>
+    <div class="topbar__actions">
+      <a class="btn btn--line" href="#contact" data-scroll-to="contact">
+        <span>联系我</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7" /></svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- 左侧竖向装饰 -->
+  <aside class="rail" aria-hidden="true">
+    <span class="rail__text">PORTFOLIO / 2026</span>
+    <i class="rail__line"></i>
+    <span class="rail__text rail__text--dim">SCROLL DOWN</span>
+  </aside>
+
+  <!-- 右下角滚动进度 -->
+  <div class="meter" id="meter" aria-hidden="true">
+    <span class="meter__num mono" id="meterNum">00</span>
+    <span class="meter__label" id="meterLabel">首页</span>
+    <span class="meter__track"><i id="meterBar"></i></span>
+  </div>
+
+  <!-- 悬浮预览卡（账号 / 作品列表 hover 用） -->
+  <div class="hovercard" id="hovercard" aria-hidden="true"></div>
+
+  <main id="main">
+
+    <!-- ═══════════════════════════════════════ 首页 ═══════════════════════════ -->
+    <section class="hero" id="home" data-nav="首页" data-index="00">
+      <div class="hero__bg" aria-hidden="true">
+        <div class="hero__grid"></div>
+        <div class="hero__glow hero__glow--a" data-parallax="0.06"></div>
+        <div class="hero__glow hero__glow--b" data-parallax="0.12"></div>
+        <div class="hero__ring"></div>
+        <div class="hero__scan"></div>
+      </div>
+
+      <div class="hero__inner">
+        <div class="hero__kicker">
+          <span class="dot"></span>
+          <span id="heroRole">内容运营 / 账号增长</span>
+          <span class="hero__kicker-sep"></span>
+          <span class="mono" id="heroCity">杭州</span>
+        </div>
+
+        <h1 class="hero__title">
+          <span class="hero__title-cn" id="heroNameCn">林见</span>
+          <span class="hero__title-latin" id="heroNameLatin" aria-hidden="true">LIN JIAN</span>
+        </h1>
+
+        <p class="hero__headline" id="heroHeadline"></p>
+        <p class="hero__note" id="heroNote"></p>
+      </div>
+
+      <div class="hero__marquee" aria-hidden="true">
+        <div class="marquee__track" id="heroMarquee"></div>
+      </div>
+
+      <div class="hero__bar">
+        <div class="hero__bar-left">
+          <span class="chip mono" id="heroVersion">PORTFOLIO 2026</span>
+        </div>
+        <nav class="hero__bar-center" id="heroSocials" aria-label="社交平台"></nav>
+        <nav class="hero__bar-right" id="heroNav" aria-label="板块快捷导航"></nav>
+      </div>
+
+      <div class="hero__stats" id="heroStats"></div>
+
+      <a class="hero__scroll" href="#about" data-scroll-to="about" aria-label="向下滚动">
+        <span class="mono">SCROLL</span>
+        <i></i>
+      </a>
+    </section>
+
+    <!-- ═══════════════════════════════════ 01 自我介绍 ═════════════════════════ -->
+    <section class="section" id="about" data-nav="自我介绍" data-index="01">
+      <header class="shead" data-reveal>
+        <div class="shead__meta">
+          <span class="shead__index mono">01</span>
+          <span class="shead__label mono">ABOUT ME</span>
+        </div>
+        <h2 class="shead__title">自我介绍</h2>
+        <p class="shead__statement" data-statement="about"></p>
+      </header>
+
+      <div class="about">
+        <div class="about__left" data-reveal>
+          <figure class="portrait">
+            <img class="portrait__img" id="aboutPortrait" alt="个人照片" />
+            <span class="frame-corner tl"></span>
+            <span class="frame-corner tr"></span>
+            <span class="frame-corner bl"></span>
+            <span class="frame-corner br"></span>
+            <figcaption class="portrait__cap mono">PHOTO / 请替换为个人照片</figcaption>
+          </figure>
+          <dl class="facts" id="aboutFacts"></dl>
+        </div>
+
+        <div class="about__right">
+          <div class="prose" id="aboutProse" data-reveal></div>
+          <div class="stats" id="aboutStats" data-reveal></div>
+          <div class="accordion" id="aboutAccordion" data-reveal></div>
+        </div>
+      </div>
+
+      <div class="timeline" id="aboutTimeline" data-reveal></div>
+    </section>
+
+    <!-- ═══════════════════════════════════ 02 账号运营 ═════════════════════════ -->
+    <section class="section" id="accounts" data-nav="账号运营" data-index="02">
+      <header class="shead" data-reveal>
+        <div class="shead__meta">
+          <span class="shead__index mono">02</span>
+          <span class="shead__label mono">ACCOUNT OPS</span>
+        </div>
+        <h2 class="shead__title">账号运营</h2>
+        <p class="shead__statement" data-statement="accounts"></p>
+      </header>
+
+      <p class="lede" id="accountsIntro" data-reveal></p>
+
+      <div class="alist" id="accountList"></div>
+
+      <div class="method" id="accountMethod" data-reveal></div>
+    </section>
+
+    <!-- ═══════════════════════════════════ 03 数据分析 ═════════════════════════ -->
+    <section class="section" id="data" data-nav="数据分析" data-index="03">
+      <header class="shead" data-reveal>
+        <div class="shead__meta">
+          <span class="shead__index mono">03</span>
+          <span class="shead__label mono">DATA &amp; INSIGHT</span>
+        </div>
+        <h2 class="shead__title">数据分析</h2>
+        <p class="shead__statement" data-statement="data"></p>
+      </header>
+
+      <p class="lede" id="dataIntro" data-reveal></p>
+
+      <!-- ① 链路增长闭环模型：7 步横向流程 -->
+      <div class="block" data-reveal>
+        <h3 class="sub-title">
+          <span class="mono">MODEL</span>
+          <span id="loopTitle"></span>
+          <span class="sub-title__tag mono" id="loopSub"></span>
+        </h3>
+        <div class="loop" id="loopSteps"></div>
+        <p class="block__summary" id="loopSummary"></p>
+      </div>
+
+      <!-- ② 内容素材筛选 & 复盘决策漏斗（左漏斗 + 右截图） -->
+      <div class="block" data-reveal>
+        <h3 class="sub-title">
+          <span class="mono">FUNNEL</span>
+          <span id="funnelTitle"></span>
+        </h3>
+        <div class="funnel">
+          <div class="funnel__left">
+            <div class="funnel__list" id="funnelList"></div>
+            <p class="block__note" id="funnelNote"></p>
+          </div>
+          <figure class="shot shot--tall" id="funnelMedia">
+            <img id="funnelImg" alt="" />
+            <figcaption class="shot__cap mono" id="funnelCap"></figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <!-- ③ 核心监测指标体系 -->
+      <div class="block" data-reveal>
+        <h3 class="sub-title">
+          <span class="mono">METRICS</span>
+          <span id="metricsTitle"></span>
+          <span class="sub-title__tag mono" id="metricsSub"></span>
+        </h3>
+        <div class="metrics" id="metricsGroups"></div>
+      </div>
+
+      <!-- ④ 复盘方法论 + 三块看板截图位 -->
+      <div class="block" data-reveal>
+        <h3 class="sub-title">
+          <span class="mono">REVIEW</span>
+          <span id="reviewTitle"></span>
+        </h3>
+        <div class="review" id="reviewCard"></div>
+        <div class="boards" id="boards"></div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════ 04 图片作品 ═════════════════════════ -->
+    <section class="section" id="works" data-nav="图片作品" data-index="04">
+      <header class="shead" data-reveal>
+        <div class="shead__meta">
+          <span class="shead__index mono">04</span>
+          <span class="shead__label mono">VISUAL WORKS</span>
+        </div>
+        <h2 class="shead__title">图片作品</h2>
+        <p class="shead__statement" data-statement="works"></p>
+      </header>
+
+      <p class="lede" id="worksIntro" data-reveal></p>
+
+      <div class="filters" id="worksFilters" data-reveal></div>
+      <div class="gallery" id="worksGallery"></div>
+    </section>
+
+    <!-- ═══════════════════════════════════ 05 剪辑作品 ═════════════════════════ -->
+    <section class="section" id="video" data-nav="剪辑作品" data-index="05">
+      <header class="shead" data-reveal>
+        <div class="shead__meta">
+          <span class="shead__index mono">05</span>
+          <span class="shead__label mono">VIDEO EDITING</span>
+        </div>
+        <h2 class="shead__title">剪辑作品</h2>
+        <p class="shead__statement" data-statement="video"></p>
+      </header>
+
+      <p class="lede" id="videoIntro" data-reveal></p>
+      <div class="roles" id="videoRoles" data-reveal></div>
+      <div class="videos" id="videoList"></div>
+    </section>
+
+    <!-- ═══════════════════════════════════ 最终页 · 洽谈 ═══════════════════════ -->
+    <section class="outro" id="contact" data-nav="合作洽谈" data-index="06">
+      <div class="outro__blob" aria-hidden="true"></div>
+
+      <div class="outro__inner">
+        <div class="shead__meta">
+          <span class="shead__index mono">06</span>
+          <span class="shead__label mono" id="outroKicker">CONTACT</span>
+        </div>
+
+        <h2 class="outro__headline" id="outroHeadline"></h2>
+
+        <div class="outro__lines" id="outroLines"></div>
+
+        <div class="outro__cta">
+          <a class="mailto" id="outroMail" href="#">
+            <span class="mailto__text">hello@example.com</span>
+            <span class="mailto__fill" aria-hidden="true"></span>
+          </a>
+          <div class="outro__socials" id="outroSocials"></div>
+        </div>
+
+        <dl class="facts facts--wide" id="outroFacts"></dl>
+      </div>
+    </section>
+  </main>
+
+  <!-- ═══════════════════════════════════════════ 页脚 ═════════════════════════ -->
+  <footer class="footer">
+    <div class="footer__top">
+      <div class="footer__col">
+        <a class="footer__mail" id="footerMail" href="#">hello@example.com</a>
+        <span class="mono footer__dim">WE CHAT / <span id="footerWechat">linjian_ops</span></span>
+      </div>
+      <nav class="footer__col footer__col--nav" id="footerNav" aria-label="页脚导航"></nav>
+      <div class="footer__col footer__col--right">
+        <span class="mono footer__dim">© <span id="footerYear">2026</span> 本站由本人设计与制作</span>
+        <a class="footer__top-link mono" href="#home" data-scroll-to="home">BACK TO TOP ↑</a>
+      </div>
+    </div>
+
+    <div class="footer__name" aria-hidden="true">
+      <span id="footerName">林见</span>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════ 图片灯箱 ═══════════════════════ -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="作品预览">
+    <button class="lightbox__close" id="lightboxClose" aria-label="关闭">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
+    </button>
+    <button class="lightbox__nav lightbox__nav--prev" id="lightboxPrev" aria-label="上一张">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg>
+    </button>
+    <button class="lightbox__nav lightbox__nav--next" id="lightboxNext" aria-label="下一张">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
+    </button>
+    <div class="lightbox__stage">
+      <img id="lightboxImg" alt="" />
+    </div>
+    <div class="lightbox__meta">
+      <span class="mono" id="lightboxCat"></span>
+      <h3 id="lightboxTitle"></h3>
+      <p id="lightboxDesc"></p>
+      <span class="mono lightbox__count" id="lightboxCount"></span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ 视频弹层 ═══════════════════════ -->
+  <div class="vmodal" id="vmodal" role="dialog" aria-modal="true" aria-label="视频播放">
+    <button class="vmodal__close" id="vmodalClose" aria-label="关闭">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
+    </button>
+    <div class="vmodal__stage">
+      <div class="vmodal__player" id="vmodalPlayer"></div>
+      <div class="vmodal__empty" id="vmodalEmpty">
+        <span class="mono">NO SOURCE</span>
+        <p>还没找到这条作品的视频文件。<br />
+          把视频命名为 <code>01.mp4</code>（序号与卡片左上角一致）放进
+          <code>assets/video/</code>，或到 <code>assets/js/content.js</code> 里给这条填 <code>src</code>。</p>
+      </div>
+    </div>
+    <div class="vmodal__meta">
+      <h3 id="vmodalTitle"></h3>
+      <p class="vmodal__desc" id="vmodalDesc"></p>
+      <ul class="vmodal__stats" id="vmodalStats"></ul>
+    </div>
+  </div>
+
+  <noscript>
+    <div class="noscript">这个页面需要开启 JavaScript 才能查看完整内容。请在浏览器设置中启用后刷新。</div>
+  </noscript>
+
+  <script src="assets/js/content.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
