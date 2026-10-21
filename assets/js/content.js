@@ -56,7 +56,7 @@ window.SITE = {
     stats: [
       { value: 5, suffix: "", label: "独立操盘的账号" },
       { value: 3700, suffix: "+", label: "有效客资" },
-      { value: 86, suffix: "w+", label: "转化金额" },
+      { value: 865, suffix: "w+", label: "转化金额" },
       { value: 8, suffix: "", label: "达成ROI", decimals: 1 }
     ],
     // 能力手风琴（第一组默认展开）
