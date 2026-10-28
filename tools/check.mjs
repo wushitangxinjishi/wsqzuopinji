@@ -128,9 +128,11 @@ if (P) {
     ["02-自我介绍", "about", 0],
     ["03-账号运营", "accounts", 300],
     ["04-数据分析", "data", 0],
-    ["05-图片作品", "works", 0],
-    ["06-剪辑作品", "video", 0],
-    ["07-合作洽谈", "contact", 0]
+    ["05-策划案例", "campaign", 0],
+    ["06-品牌文案", "copy", 0],
+    ["07-图片作品", "works", 0],
+    ["08-剪辑作品", "video", 0],
+    ["09-合作洽谈", "contact", 0]
   ];
   for (const [name, sec, off] of spots) {
     await evalJs(`(() => { const el = document.getElementById('${sec}');

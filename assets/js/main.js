@@ -592,6 +592,18 @@
     var d = S.data || {};
     $("#dataIntro").innerHTML = d.intro || "";
 
+    /* ---------------------------------------------- 监测链路：声量 → 转化 */
+    var chain = d.chain || [];
+    $("#dataChain").innerHTML = chain.length
+      ? '<span class="chain__label mono">监测链路</span>' +
+        chain
+          .map(function (t, i) {
+            return '<span class="chain__item">' + esc(t) + "</span>" +
+              (i < chain.length - 1 ? '<span class="chain__arrow" aria-hidden="true"></span>' : "");
+          })
+          .join("")
+      : "";
+
     /* ---------------------------------------------- ① 链路增长闭环模型 */
     var loop = d.loop || {};
     $("#loopTitle").textContent = loop.title || "";
@@ -695,6 +707,172 @@
       };
       loadWithFallback(img, imageChain(item, opts), placeholderFor(item, opts));
     });
+  }
+
+  /* ========================================================== 04 策划案例 */
+  function buildCampaign() {
+    var c = S.campaign || {};
+    $("#campaignIntro").innerHTML = c.intro || "";
+    var cases = c.cases || [];
+
+    $("#campaignList").innerHTML = cases
+      .map(function (cs, i) {
+        var meta = (cs.meta || [])
+          .map(function (m) {
+            return '<div><span class="mono">' + esc(m[0]) + "</span><b>" + esc(m[1]) + "</b></div>";
+          })
+          .join("");
+
+        var blocks = (cs.sections || [])
+          .map(function (s) {
+            return '<section class="case-block">' +
+              '<h4 class="case-block__k">' + esc(s.k) + "</h4>" +
+              "<ul>" +
+                (s.items || []).map(function (t) { return "<li>" + esc(t) + "</li>"; }).join("") +
+              "</ul>" +
+            "</section>";
+          })
+          .join("");
+
+        var matrix = "";
+        if (cs.matrix) {
+          matrix =
+            '<div class="case-matrix">' +
+              '<h4 class="case-block__k">' + esc(cs.matrix.title || "内容矩阵") + "</h4>" +
+              '<div class="case-matrix__wrap"><table><thead><tr>' +
+                cs.matrix.head.map(function (h) { return "<th>" + esc(h) + "</th>"; }).join("") +
+              "</tr></thead><tbody>" +
+                cs.matrix.rows.map(function (row) {
+                  return "<tr>" + row.map(function (cell, ci) {
+                    return "<td" + (ci === 0 ? ' class="case-matrix__phase"' : "") + ">" +
+                      esc(cell) + "</td>";
+                  }).join("") + "</tr>";
+                }).join("") +
+              "</tbody></table></div>" +
+            "</div>";
+        }
+
+        var chain = cs.chain
+          ? '<div class="case-chain">' +
+              '<span class="mono">传播链路</span><p>' + esc(cs.chain) + "</p>" +
+            "</div>"
+          : "";
+
+        var results = (cs.results || []).length
+          ? '<div class="case-results">' +
+              cs.results.map(function (r) {
+                return '<div class="case-result">' +
+                  '<span class="mono">' + esc(r.k) + "</span>" +
+                  "<p>" + esc(r.v) + "</p>" +
+                "</div>";
+              }).join("") +
+            "</div>"
+          : "";
+
+        var review = cs.review
+          ? '<blockquote class="case-review">' + esc(cs.review) + "</blockquote>"
+          : "";
+
+        var disclaimer = cs.disclaimer
+          ? '<p class="case-disclaimer mono">' + esc(cs.disclaimer) + "</p>"
+          : "";
+
+        return '<article class="case-study' + (cs.tone === "practice" ? " case-study--practice" : "") +
+            '" data-reveal>' +
+          '<header class="case-study__head">' +
+            '<div class="case-study__tag mono">' + esc(cs.tag || "") + "</div>" +
+            '<h3 class="case-study__title">' + esc(cs.title) + "</h3>" +
+            (cs.subtitle ? '<p class="case-study__sub">' + esc(cs.subtitle) + "</p>" : "") +
+            '<div class="case-study__meta">' + meta + "</div>" +
+          "</header>" +
+          '<div class="case-study__body">' +
+            '<figure class="shot shot--case">' +
+              '<img alt="' + esc((cs.image && cs.image.title) || cs.title) + '" loading="lazy" />' +
+              '<figcaption class="shot__cap mono">' + esc((cs.image && cs.image.hint) || "") + "</figcaption>" +
+            "</figure>" +
+            '<div class="case-study__text">' + blocks + "</div>" +
+          "</div>" +
+          matrix + chain + results + review + disclaimer +
+        "</article>";
+      })
+      .join("");
+
+    // 案例配图：占位图 / 真实图自动切换
+    $$(".case-study", $("#campaignList")).forEach(function (node, i) {
+      var cs = cases[i] || {};
+      var img = $(".shot--case img", node);
+      if (!img) return;
+      var item = { title: (cs.image && cs.image.title) || cs.title };
+      var opts = {
+        auto: hintToAuto(cs.image && cs.image.hint),
+        hint: (cs.image && cs.image.hint) || "",
+        sub: cs.tag || "Campaign",
+        w: 1200, h: 900
+      };
+      loadWithFallback(img, imageChain(item, opts), placeholderFor(item, opts));
+    });
+  }
+
+  /* ========================================================== 05 品牌文案 */
+  function buildCopy() {
+    var cp = S.copy || {};
+    $("#copyIntro").innerHTML = cp.intro || "";
+
+    var real = cp.real || {};
+    $("#copyReal").innerHTML =
+      '<div class="copy-col__head">' +
+        "<h3>" + esc(real.title || "") + "</h3>" +
+        '<span class="mono">' + esc(real.note || "") + "</span>" +
+      "</div>" +
+      '<div class="copy-list">' +
+        (real.items || [])
+          .map(function (it, i) {
+            return '<article class="copy-card" data-reveal>' +
+              '<div class="copy-card__no mono">' + pad2(i + 1) + "</div>" +
+              '<p class="copy-card__text">' + esc(it.text) + "</p>" +
+              '<dl class="copy-card__meta">' +
+                "<div><dt>人群</dt><dd>" + esc(it.audience || "") + "</dd></div>" +
+                "<div><dt>钩子</dt><dd>" + esc(it.hook || "") + "</dd></div>" +
+                "<div><dt>场景</dt><dd>" + esc(it.scene || "") + "</dd></div>" +
+              "</dl>" +
+            "</article>";
+          })
+          .join("") +
+      "</div>";
+
+    var pr = cp.practice || {};
+    $("#copyPractice").innerHTML =
+      '<div class="copy-col__head">' +
+        "<h3>" + esc(pr.title || "") + "</h3>" +
+        '<span class="mono">' + esc(pr.note || "") + "</span>" +
+      "</div>" +
+      '<div class="copy-list">' +
+        (pr.slogans || [])
+          .map(function (s, i) {
+            return '<article class="copy-card copy-card--slogan" data-reveal>' +
+              '<div class="copy-card__label mono">Slogan ' + pad2(i + 1) + "</div>" +
+              '<p class="copy-card__text">' + esc(s.text) + "</p>" +
+              '<p class="copy-card__why">' + esc(s.why) + "</p>" +
+            "</article>";
+          })
+          .join("") +
+        (pr.campaign
+          ? '<article class="copy-card copy-card--theme" data-reveal>' +
+              '<div class="copy-card__label mono">' + esc(pr.campaign.label) + "</div>" +
+              '<p class="copy-card__text">' + esc(pr.campaign.text) + "</p>" +
+              '<p class="copy-card__why">' + esc(pr.campaign.why) + "</p>" +
+            "</article>"
+          : "") +
+        (pr.socials || [])
+          .map(function (s) {
+            return '<article class="copy-card" data-reveal>' +
+              '<div class="copy-card__label mono">' + esc(s.label) + "</div>" +
+              '<p class="copy-card__text">' + esc(s.text) + "</p>" +
+              '<p class="copy-card__why">' + esc(s.why) + "</p>" +
+            "</article>";
+          })
+          .join("") +
+      "</div>";
   }
 
   /* 折线图 SVG */
@@ -828,6 +1006,13 @@
   function buildWorks() {
     var wk = S.works || {};
     $("#worksIntro").innerHTML = wk.intro || "";
+
+    $("#worksPrinciples").innerHTML = (wk.principles || [])
+      .map(function (p, i) {
+        return '<li><span class="mono">' + pad2(i + 1) + "</span>" +
+          "<b>" + esc(p.title) + "</b><span>" + esc(p.desc) + "</span></li>";
+      })
+      .join("");
 
     var items = wk.items || [];
     var counts = {};
@@ -1010,6 +1195,7 @@
   function bindStatements() {
     var map = {
       about: S.about, accounts: S.accounts, data: S.data,
+      campaign: S.campaign, copy: S.copy,
       works: S.works, video: S.video
     };
     $$("[data-statement]").forEach(function (n) {
@@ -1142,6 +1328,11 @@
       $("#lightboxCat").textContent = it.category || "";
       $("#lightboxTitle").textContent = it.title || "";
       $("#lightboxDesc").textContent = it.desc || "";
+      var noteEl = $("#lightboxNote");
+      if (noteEl) {
+        noteEl.textContent = it.note || "";
+        noteEl.style.display = it.note ? "" : "none";
+      }
       $("#lightboxCount").textContent = pad2(current + 1) + " / " + pad2(ids.length);
     }
 
@@ -1499,6 +1690,8 @@
       buildAbout();
       buildAccounts();
       buildData();
+      buildCampaign();
+      buildCopy();
       buildWorks();
       buildVideo();
       buildOutro();

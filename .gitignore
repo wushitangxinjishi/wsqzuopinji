@@ -6,3 +6,6 @@ export/
 
 # 本地导出的 PDF 作品集，默认不进仓库；如需上线请手动 git add -f
 *.pdf
+
+# PPT 构建工作目录（含 node_modules 等依赖），绝不进仓库
+.ppt-build/

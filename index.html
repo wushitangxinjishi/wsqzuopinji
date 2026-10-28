@@ -188,6 +188,7 @@
       </header>
 
       <p class="lede" id="dataIntro" data-reveal></p>
+      <div class="chain" id="dataChain" data-reveal></div>
 
       <!-- ① 链路增长闭环模型：7 步横向流程 -->
       <div class="block" data-reveal>
@@ -239,11 +240,44 @@
       </div>
     </section>
 
-    <!-- ═══════════════════════════════════ 04 图片作品 ═════════════════════════ -->
-    <section class="section" id="works" data-nav="图片作品" data-index="04">
+    <!-- ═══════════════════════════════════ 04 策划案例 ═════════════════════════ -->
+    <section class="section" id="campaign" data-nav="策划案例" data-index="04">
       <header class="shead" data-reveal>
         <div class="shead__meta">
           <span class="shead__index mono">04</span>
+          <span class="shead__label mono">CAMPAIGN</span>
+        </div>
+        <h2 class="shead__title">策划案例</h2>
+        <p class="shead__statement" data-statement="campaign"></p>
+      </header>
+
+      <p class="lede" id="campaignIntro" data-reveal></p>
+      <div id="campaignList"></div>
+    </section>
+
+    <!-- ═══════════════════════════════════ 05 品牌文案 ═════════════════════════ -->
+    <section class="section" id="copy" data-nav="品牌文案" data-index="05">
+      <header class="shead" data-reveal>
+        <div class="shead__meta">
+          <span class="shead__index mono">05</span>
+          <span class="shead__label mono">COPYWRITING</span>
+        </div>
+        <h2 class="shead__title">品牌文案</h2>
+        <p class="shead__statement" data-statement="copy"></p>
+      </header>
+
+      <p class="lede" id="copyIntro" data-reveal></p>
+      <div class="copy-grid">
+        <div class="copy-col" id="copyReal" data-reveal></div>
+        <div class="copy-col" id="copyPractice" data-reveal></div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════ 06 图片作品 ═════════════════════════ -->
+    <section class="section" id="works" data-nav="图片作品" data-index="06">
+      <header class="shead" data-reveal>
+        <div class="shead__meta">
+          <span class="shead__index mono">06</span>
           <span class="shead__label mono">VISUAL WORKS</span>
         </div>
         <h2 class="shead__title">图片作品</h2>
@@ -251,16 +285,17 @@
       </header>
 
       <p class="lede" id="worksIntro" data-reveal></p>
+      <ul class="principles" id="worksPrinciples" data-reveal></ul>
 
       <div class="filters" id="worksFilters" data-reveal></div>
       <div class="gallery" id="worksGallery"></div>
     </section>
 
-    <!-- ═══════════════════════════════════ 05 剪辑作品 ═════════════════════════ -->
-    <section class="section" id="video" data-nav="剪辑作品" data-index="05">
+    <!-- ═══════════════════════════════════ 07 剪辑作品 ═════════════════════════ -->
+    <section class="section" id="video" data-nav="剪辑作品" data-index="07">
       <header class="shead" data-reveal>
         <div class="shead__meta">
-          <span class="shead__index mono">05</span>
+          <span class="shead__index mono">07</span>
           <span class="shead__label mono">VIDEO EDITING</span>
         </div>
         <h2 class="shead__title">剪辑作品</h2>
@@ -273,12 +308,12 @@
     </section>
 
     <!-- ═══════════════════════════════════ 最终页 · 洽谈 ═══════════════════════ -->
-    <section class="outro" id="contact" data-nav="合作洽谈" data-index="06">
+    <section class="outro" id="contact" data-nav="合作洽谈" data-index="08">
       <div class="outro__blob" aria-hidden="true"></div>
 
       <div class="outro__inner">
         <div class="shead__meta">
-          <span class="shead__index mono">06</span>
+          <span class="shead__index mono">08</span>
           <span class="shead__label mono" id="outroKicker">CONTACT</span>
         </div>
 
@@ -336,6 +371,7 @@
       <span class="mono" id="lightboxCat"></span>
       <h3 id="lightboxTitle"></h3>
       <p id="lightboxDesc"></p>
+      <p class="lightbox__note" id="lightboxNote"></p>
       <span class="mono lightbox__count" id="lightboxCount"></span>
     </div>
   </div>
