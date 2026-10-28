@@ -707,6 +707,185 @@
       };
       loadWithFallback(img, imageChain(item, opts), placeholderFor(item, opts));
     });
+
+    /* --------------------------------------- ⑤ 品牌内容分析 & 竞品对标 */
+    var cp = d.competitor || {};
+    var slides = cp.slides || [];
+    var cpRoot = $("#competitorModule");
+    if (!cpRoot || !slides.length) return;
+
+    cpRoot.innerHTML =
+      '<div class="benchmark">' +
+        '<div class="benchmark__intro">' +
+          '<div class="benchmark__copy">' +
+            '<span class="mono benchmark__kicker">' + esc(cp.kicker || "BRAND INTELLIGENCE") + "</span>" +
+            '<h4 class="benchmark__title">' + esc(cp.title || "") + "</h4>" +
+            '<p class="benchmark__lead">' + esc(cp.intro || "") + "</p>" +
+            '<div class="benchmark__meta">' +
+              (cp.meta || []).map(function (m) {
+                return '<div><span class="mono">' + esc(m.k) + "</span><b>" + esc(m.v) + "</b></div>";
+              }).join("") +
+            "</div>" +
+          "</div>" +
+          '<figure class="benchmark__cover" data-benchmark-cover>' +
+            '<img src="' + esc((cp.cover && cp.cover.src) || "") + '" alt="' + esc((cp.cover && cp.cover.title) || "") + '" loading="lazy" />' +
+            '<figcaption><span class="mono">RESEARCH COVER</span><b>' +
+              esc((cp.cover && cp.cover.title) || "") +
+            "</b></figcaption>" +
+          "</figure>" +
+        "</div>" +
+        '<div class="benchmark__tabs" role="tablist" aria-label="竞品分析维度">' +
+          slides.map(function (s, i) {
+            return '<button class="benchmark__tab' + (i === 0 ? " is-active" : "") + '" role="tab" ' +
+              'aria-selected="' + (i === 0) + '" aria-controls="benchmarkPanel" data-benchmark-tab="' + i + '">' +
+              '<span class="mono">' + esc(s.key || pad2(i + 1)) + "</span>" +
+              "<b>" + esc(s.tab || "") + "</b>" +
+              '<i aria-hidden="true"></i>' +
+            "</button>";
+          }).join("") +
+        "</div>" +
+        '<div class="benchmark__panel" id="benchmarkPanel" role="tabpanel" aria-live="polite">' +
+          '<button class="benchmark__visual" id="benchmarkVisual" aria-label="放大当前分析图">' +
+            '<img id="benchmarkImage" alt="" />' +
+            '<span class="benchmark__zoom mono">CLICK TO ZOOM ↗</span>' +
+            '<span class="benchmark__slide-count mono" id="benchmarkCount">01 / ' + pad2(slides.length) + "</span>" +
+          "</button>" +
+          '<div class="benchmark__detail">' +
+            '<span class="mono benchmark__detail-index" id="benchmarkIndex"></span>' +
+            '<h5 id="benchmarkHeading"></h5>' +
+            '<p class="benchmark__detail-lead" id="benchmarkLead"></p>' +
+            '<div class="benchmark__stats" id="benchmarkStats"></div>' +
+            '<ul class="benchmark__points" id="benchmarkPoints"></ul>' +
+            '<div class="benchmark__insight">' +
+              '<span class="mono">SO WHAT</span>' +
+              '<p id="benchmarkInsight"></p>' +
+            "</div>" +
+          "</div>" +
+        "</div>" +
+        '<div class="benchmark__abilities">' +
+          '<div class="benchmark__abilities-head">' +
+            '<span class="mono">CAPABILITY MAP</span>' +
+            '<h4>从信息到判断，再到可执行建议</h4>' +
+            '<p>点击能力项查看对应的分析动作与交付内容。</p>' +
+          "</div>" +
+          '<div class="benchmark__ability-list" id="benchmarkAbilities">' +
+            (cp.capabilities || []).map(function (c, i) {
+              return '<article class="benchcap' + (i === 0 ? " is-open" : "") + '">' +
+                '<button class="benchcap__head" aria-expanded="' + (i === 0) + '">' +
+                  '<span class="mono benchcap__no">' + esc(c.no) + "</span>" +
+                  '<span class="benchcap__title">' + esc(c.title) + "</span>" +
+                  '<span class="benchcap__summary">' + esc(c.summary) + "</span>" +
+                  '<span class="benchcap__plus" aria-hidden="true"></span>' +
+                "</button>" +
+                '<div class="benchcap__body"><ul>' +
+                  (c.detail || []).map(function (t) { return "<li>" + esc(t) + "</li>"; }).join("") +
+                "</ul></div>" +
+              "</article>";
+            }).join("") +
+          "</div>" +
+        "</div>" +
+        '<p class="benchmark__conclusion"><span class="mono">OUTPUT</span>' + esc(cp.conclusion || "") + "</p>" +
+        '<p class="benchmark__disclaimer mono">基于公开账号页面与内容样本的桌面研究 · 数据口径以原研究快照为准</p>' +
+      "</div>";
+  }
+
+  function bindCompetitor(openLightbox) {
+    var root = $("#competitorModule");
+    if (!root) return;
+    var cp = (S.data && S.data.competitor) || {};
+    var slides = cp.slides || [];
+    var current = 0;
+
+    var image = $("#benchmarkImage", root);
+    var heading = $("#benchmarkHeading", root);
+    var lead = $("#benchmarkLead", root);
+    var index = $("#benchmarkIndex", root);
+    var stats = $("#benchmarkStats", root);
+    var points = $("#benchmarkPoints", root);
+    var insight = $("#benchmarkInsight", root);
+    var count = $("#benchmarkCount", root);
+
+    function show(i) {
+      current = (i + slides.length) % slides.length;
+      var slide = slides[current] || {};
+      $$(".benchmark__tab", root).forEach(function (tab) {
+        var active = +tab.getAttribute("data-benchmark-tab") === current;
+        tab.classList.toggle("is-active", active);
+        tab.setAttribute("aria-selected", String(active));
+      });
+
+      image.classList.add("is-switching");
+      window.setTimeout(function () {
+        image.src = slide.image || "";
+        image.alt = slide.title || "";
+        image.classList.remove("is-switching");
+      }, RM ? 0 : 130);
+
+      index.textContent = pad2(current + 1) + " / " + pad2(slides.length) + " · " + (slide.key || "");
+      heading.textContent = slide.title || "";
+      lead.textContent = slide.lead || "";
+      points.innerHTML = (slide.points || []).map(function (t) { return "<li>" + esc(t) + "</li>"; }).join("");
+      insight.textContent = slide.insight || "";
+      stats.innerHTML = (slide.stats || []).map(function (s) {
+        return '<div><b>' + esc(s.value) + "</b><span>" + esc(s.label) + "</span></div>";
+      }).join("");
+      count.textContent = pad2(current + 1) + " / " + pad2(slides.length);
+    }
+
+    $$(".benchmark__tab", root).forEach(function (tab) {
+      tab.addEventListener("click", function () {
+        show(+tab.getAttribute("data-benchmark-tab"));
+      });
+    });
+
+    var visual = $("#benchmarkVisual", root);
+    if (visual) {
+      visual.addEventListener("click", function () {
+        var items = slides.map(function (s) {
+          return {
+            title: s.title || "",
+            category: "竞品研究 · " + (s.tab || ""),
+            src: s.image || "",
+            desc: s.lead || "",
+            note: s.insight || ""
+          };
+        });
+        if (typeof openLightbox === "function") openLightbox(items, current);
+      });
+    }
+
+    function setOpen(item, open) {
+      var body = $(".benchcap__body", item);
+      var head = $(".benchcap__head", item);
+      if (!body || !head) return;
+      item.classList.toggle("is-open", open);
+      head.setAttribute("aria-expanded", String(open));
+      if (open) {
+        body.style.height = body.scrollHeight + "px";
+      } else {
+        body.style.height = body.scrollHeight + "px";
+        requestAnimationFrame(function () { body.style.height = "0px"; });
+      }
+    }
+
+    $$(".benchcap", root).forEach(function (item) {
+      setOpen(item, item.classList.contains("is-open"));
+      $(".benchcap__head", item).addEventListener("click", function () {
+        var willOpen = !item.classList.contains("is-open");
+        $$(".benchcap.is-open", root).forEach(function (other) {
+          if (other !== item) setOpen(other, false);
+        });
+        setOpen(item, willOpen);
+      });
+    });
+
+    window.addEventListener("resize", function () {
+      $$(".benchcap.is-open .benchcap__body", root).forEach(function (body) {
+        body.style.height = "auto";
+      });
+    });
+
+    show(0);
   }
 
   /* ========================================================== 04 策划案例 */
@@ -1309,11 +1488,12 @@
   function initLightbox(visibleIds) {
     var box = $("#lightbox");
     var img = $("#lightboxImg");
-    var items = (S.works && S.works.items) || [];
+    var worksItems = (S.works && S.works.items) || [];
+    var items = worksItems;
+    var ids = [];
     var current = 0;
 
     function render(i) {
-      var ids = visibleIds();
       if (!ids.length) return;
       current = (i + ids.length) % ids.length;
       var idx = ids[current];
@@ -1336,8 +1516,21 @@
       $("#lightboxCount").textContent = pad2(current + 1) + " / " + pad2(ids.length);
     }
 
-    function open(i) {
-      render(i);
+    function openWorks(i) {
+      items = worksItems;
+      ids = visibleIds();
+      if (!ids.length) return;
+      var pos = ids.indexOf(+i);
+      render(pos < 0 ? 0 : pos);
+      box.classList.add("is-open");
+      document.body.classList.add("is-locked");
+    }
+
+    function openItems(nextItems, i) {
+      items = nextItems || [];
+      ids = items.map(function (_, pos) { return pos; });
+      if (!ids.length) return;
+      render(i || 0);
       box.classList.add("is-open");
       document.body.classList.add("is-locked");
     }
@@ -1348,9 +1541,7 @@
 
     $$(".gitem").forEach(function (n) {
       n.addEventListener("click", function () {
-        var ids = visibleIds();
-        var pos = ids.indexOf(+n.getAttribute("data-i"));
-        open(pos < 0 ? 0 : pos);
+        openWorks(+n.getAttribute("data-i"));
       });
     });
 
@@ -1365,6 +1556,8 @@
       if (e.key === "ArrowLeft") render(current - 1);
       if (e.key === "ArrowRight") render(current + 1);
     });
+
+    return openItems;
   }
 
   /* ---- 视频弹层 ---- */
@@ -1702,9 +1895,10 @@
       var visibleIds = bindFilters();
       observeReveals();
       initCounters();
-      initLightbox(visibleIds || function () {
+      var openLightbox = initLightbox(visibleIds || function () {
         return $$(".gitem").map(function (n) { return +n.getAttribute("data-i"); });
       });
+      bindCompetitor(openLightbox);
       initVideoModal();
       initHovercard();
       initCursor();
